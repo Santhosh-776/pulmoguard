@@ -102,3 +102,4 @@ pulmoguard/
 When pushing this project to your GitHub account:
 1. Make sure you don't commit your `.env` file (it is already protected in `.gitignore`).
 2. Your friend only needs to clone the repo, add their own API key to `.env` (or use the template), and type `python run.py`.
+# pulmoguard
