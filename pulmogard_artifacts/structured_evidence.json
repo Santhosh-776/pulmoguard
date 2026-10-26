@@ -1,0 +1,277 @@
+[
+  {
+    "patient_id": "P1",
+    "risk_probability": 0.4894,
+    "risk_level": "MEDIUM",
+    "top_contributors": [
+      {
+        "feature": "pack_years",
+        "value": "42.9",
+        "contribution": 0.19746,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "family_lung_cancer_Yes",
+        "value": "Yes",
+        "contribution": 0.1875,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "copd_No",
+        "value": "No",
+        "contribution": -0.14163,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "age",
+        "value": "62",
+        "contribution": -0.12784,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "years_since_quit",
+        "value": "0.0",
+        "contribution": 0.09742,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "personal_cancer_history_No",
+        "value": "No",
+        "contribution": -0.0961,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "chronic_bronchitis_No",
+        "value": "No",
+        "contribution": -0.09161,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "sex_Male",
+        "value": "Male",
+        "contribution": 0.08916,
+        "direction": "increases_risk"
+      }
+    ]
+  },
+  {
+    "patient_id": "P2",
+    "risk_probability": 0.546,
+    "risk_level": "MEDIUM",
+    "top_contributors": [
+      {
+        "feature": "years_since_quit",
+        "value": "15.0",
+        "contribution": -0.26015,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "copd_Yes",
+        "value": "Yes",
+        "contribution": 0.23416,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "pack_years",
+        "value": "46.9",
+        "contribution": 0.22344,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "chronic_bronchitis_Yes",
+        "value": "Yes",
+        "contribution": 0.1438,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "family_lung_cancer_No",
+        "value": "No",
+        "contribution": -0.12912,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "smoking_status_Former",
+        "value": "Former",
+        "contribution": 0.10965,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "personal_cancer_history_No",
+        "value": "No",
+        "contribution": -0.09781,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "sex_Male",
+        "value": "Male",
+        "contribution": 0.08916,
+        "direction": "increases_risk"
+      }
+    ]
+  },
+  {
+    "patient_id": "P3",
+    "risk_probability": 0.3358,
+    "risk_level": "MEDIUM",
+    "top_contributors": [
+      {
+        "feature": "age",
+        "value": "59",
+        "contribution": -0.25357,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "copd_No",
+        "value": "No",
+        "contribution": -0.15171,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "chronic_bronchitis_Yes",
+        "value": "Yes",
+        "contribution": 0.13878,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "family_lung_cancer_No",
+        "value": "No",
+        "contribution": -0.13354,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "personal_cancer_history_No",
+        "value": "No",
+        "contribution": -0.09656,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "years_since_quit",
+        "value": "0.0",
+        "contribution": 0.09214,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "smoking_status_Current",
+        "value": "Current",
+        "contribution": -0.0622,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "occupational_exposure_No",
+        "value": "No",
+        "contribution": -0.05151,
+        "direction": "decreases_risk"
+      }
+    ]
+  },
+  {
+    "patient_id": "P4",
+    "risk_probability": 0.3208,
+    "risk_level": "MEDIUM",
+    "top_contributors": [
+      {
+        "feature": "age",
+        "value": "60",
+        "contribution": -0.18401,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "copd_No",
+        "value": "No",
+        "contribution": -0.14647,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "family_lung_cancer_No",
+        "value": "No",
+        "contribution": -0.13038,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "personal_cancer_history_No",
+        "value": "No",
+        "contribution": -0.09969,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "years_since_quit",
+        "value": "0.0",
+        "contribution": 0.09363,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "pack_years",
+        "value": "35.0",
+        "contribution": 0.09137,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "chronic_bronchitis_No",
+        "value": "No",
+        "contribution": -0.09053,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "smoking_status_Current",
+        "value": "Current",
+        "contribution": -0.0622,
+        "direction": "decreases_risk"
+      }
+    ]
+  },
+  {
+    "patient_id": "P5",
+    "risk_probability": 0.4521,
+    "risk_level": "MEDIUM",
+    "top_contributors": [
+      {
+        "feature": "age",
+        "value": "73",
+        "contribution": 0.39757,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "copd_No",
+        "value": "No",
+        "contribution": -0.14736,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "family_lung_cancer_No",
+        "value": "No",
+        "contribution": -0.12917,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "personal_cancer_history_No",
+        "value": "No",
+        "contribution": -0.09666,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "years_since_quit",
+        "value": "0.0",
+        "contribution": 0.09161,
+        "direction": "increases_risk"
+      },
+      {
+        "feature": "chronic_bronchitis_No",
+        "value": "No",
+        "contribution": -0.09146,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "race_Asian",
+        "value": "Asian",
+        "contribution": -0.06869,
+        "direction": "decreases_risk"
+      },
+      {
+        "feature": "smoking_status_Current",
+        "value": "Current",
+        "contribution": -0.06098,
+        "direction": "decreases_risk"
+      }
+    ]
+  }
+]

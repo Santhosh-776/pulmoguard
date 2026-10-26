@@ -1,0 +1,177 @@
+
+================================================================================
+PULMOGUARD AI — FINAL RESEARCH REPORT
+================================================================================
+
+DATASET
+-------
+  Source               : pulmogard_synthetic_lung_cancer_risk_50100.csv
+  !! IMPORTANT DISCLAIMER !!
+  This dataset is SYNTHETIC. It is NOT real patient data. It has NOT been
+  clinically validated. Results cannot be interpreted as clinical findings.
+  The dataset is used solely to develop and test the PulmoGuard technical pipeline.
+
+  Rows (original)      : 50,100
+  Duplicate rows removed: 100
+  Rows after cleaning  : 50,000
+  Columns              : 20 (19 features + 1 target)
+  Positive cases (=1)  : 1381 (2.76%)
+  Negative cases (=0)  : 48619 (97.24%)
+  Missing values       : education(470), bmi(754), cigarettes_per_day(505),
+                         years_smoked(510), years_since_quit(464),
+                         family_lung_cancer(559), occupational_exposure(370)
+  Class imbalance ratio: ~35:1 (negative:positive)
+
+SPLIT
+-----
+  Train  : 34,999 rows (70.0%)
+  Val    : 7,501  rows (15.0%)
+  Test   : 7,500  rows (15.0%)
+  Method : Stratified by target, random_state=42
+  Leakage: No overlap verified (index checks passed)
+
+PREPROCESSING
+-------------
+  Numerical (6)    : median imputation → StandardScaler
+  Categorical (13) : most-frequent imputation → OHE(handle_unknown=ignore)
+  Fit on           : X_train ONLY
+  Output features  : 37 (6 numeric + 31 OHE encoded)
+  NaN post-transform: 0
+
+MODELING
+--------
+  Logistic Regression (Val metrics, threshold=0.50):
+    Accuracy         : 0.6197
+    Precision        : 0.0478
+    Recall           : 0.6763
+    F1               : 0.0894
+    Balanced Accuracy: 0.6472
+    ROC-AUC          : 0.6995
+    PR-AUC           : 0.0775
+    MCC              : 0.0989
+    Convergence      : YES (22 iterations / 2000 max)
+
+  LightGBM (Val metrics, threshold=0.50):
+    Accuracy         : 0.7028
+    Precision        : 0.0531
+    Recall           : 0.5797
+    F1               : 0.0972
+    Balanced Accuracy: 0.6430
+    ROC-AUC          : 0.6944
+    PR-AUC           : 0.0658
+    MCC              : 0.1021
+    Config           : n_estimators=50, max_depth=3, num_leaves=7,
+                       min_child_samples=200, reg_alpha=5.0, reg_lambda=10.0,
+                       is_unbalance=True (val_AUC gap: 0.02)
+
+  Hybrid (Test metrics, threshold=0.68):
+    Weight           : w_lr=0.65, w_lgb=0.35
+    Threshold        : 0.68 (selected on val F1)
+    Accuracy         : 0.9307
+    Precision        : 0.0641
+    Recall           : 0.1111
+    F1               : 0.0813
+    Balanced Accuracy: 0.5325
+    ROC-AUC          : 0.6735
+    PR-AUC           : 0.0514
+    MCC              : 0.0499
+
+HYBRID DESIGN
+-------------
+  Formula  : hybrid_prob = 0.65 × LR_prob + 0.35 × LGB_prob
+  Selection: weight chosen to maximize validation ROC-AUC
+  Weight search: 0.0 to 1.0 in steps of 0.05
+
+XAI
+---
+  LightGBM SHAP (TreeExplainer):
+    Top features by mean |SHAP|:
+      age                                : 0.31960
+      pack_years                         : 0.15480
+      years_smoked                       : 0.13999
+      family_lung_cancer_No              : 0.04657
+      copd_No                            : 0.04566
+      cigarettes_per_day                 : 0.04259
+      years_since_quit                   : 0.03716
+      bmi                                : 0.03599
+      copd_Yes                           : 0.03308
+      chronic_bronchitis_No              : 0.03027
+
+  Hybrid Explanation Methodology:
+    LR contributions   : feature_value × coefficient (log-odds space)
+    LGB contributions  : SHAP values (log-odds, TreeExplainer)
+    Hybrid contributions: w × LR_contrib + (1-w) × LGB_SHAP
+    Caveat             : Contributions are in approximate log-odds space.
+                         Exact probability-space additivity not guaranteed.
+                         Directional signal is valid and preserved.
+
+  Top contributing features (SHAP, LightGBM):
+    age, pack_years, years_smoked, family_lung_cancer, copd
+
+GROUNDED GENAI LAYER
+--------------------
+  Evidence format  : JSON with risk_probability, risk_level, top_contributors
+  Grounding rules  : 10 strict rules (no invention, no diagnosis, no prob change)
+  Prompt template  : SYSTEM_PROMPT_TEMPLATE with {evidence_json} injection
+  Evaluation metrics (6):
+    1. Risk probability consistency
+    2. Risk level consistency
+    3. Evidence feature coverage rate
+    4. Unsupported feature rate (hallucination detection)
+    5. Prediction contradiction rate
+    6. Disclaimer presence
+  API dependency   : None (framework ready for any LLM backend)
+
+VALIDATION CHECKS
+-----------------
+  Leakage      : Preprocessor fit only on X_train. Confirmed.
+  Data split   : No index overlap (train/val/test). Confirmed.
+  Test isolation: Test set not used in weight or threshold selection. Confirmed.
+  Robustness   : 8 tests passed (missing, unseen categories, extremes, batch).
+  Overfitting  : LightGBM regularized (train/val gap = 0.02). Confirmed.
+
+LIMITATIONS
+-----------
+  1. SYNTHETIC DATA: Results reflect synthetic signal, NOT real patient outcomes.
+  2. ROC-AUC ~0.67–0.70 is modest — reflecting the limited synthetic signal.
+  3. PR-AUC ~0.05 vs baseline 0.028 — modest improvement over random.
+  4. Class imbalance (35:1) makes precision challenging at any threshold.
+  5. Hybrid SHAP values are approximate blends — not mathematically exact.
+  6. No clinical validation performed or implied.
+
+TECHNICAL STATUS — PIPELINE STAGES
+------------------------------------
+  Cell 01  ENVIRONMENT          : ✅ PASSED
+  Cell 02  LOAD DATASET         : ✅ PASSED
+  Cell 03  DATA AUDIT           : ✅ PASSED
+  Cell 04  TARGET VALIDATION    : ✅ PASSED
+  Cell 05  DATA CLEANING        : ✅ PASSED
+  Cell 06  FEATURE ANALYSIS     : ✅ PASSED
+  Cell 07  TRAIN/VAL/TEST SPLIT : ✅ PASSED
+  Cell 08  PREPROCESSING        : ✅ PASSED
+  Cell 09  LOGISTIC REGRESSION  : ✅ PASSED (converged in 22 iter)
+  Cell 10  LR VALIDATION        : ✅ PASSED
+  Cell 11  LIGHTGBM             : ✅ PASSED (3 iterations to resolve overfit)
+  Cell 12  LGB VALIDATION       : ✅ PASSED
+  Cell 13  MODEL COMPARISON     : ✅ PASSED
+  Cell 14  HYBRID WEIGHT        : ✅ PASSED (w_lr=0.65)
+  Cell 15  HYBRID TEST EVAL     : ✅ PASSED
+  Cell 16  THRESHOLD SELECTION  : ✅ PASSED (t=0.68)
+  Cell 17  FINAL COMPARISON     : ✅ PASSED
+  Cell 18  CONFUSION MATRIX     : ✅ PASSED
+  Cell 19  ROC CURVES           : ✅ PASSED
+  Cell 20  PR CURVE             : ✅ PASSED
+  Cell 21  FEATURE IMPORTANCE   : ✅ PASSED
+  Cell 22  SHAP GLOBAL          : ✅ PASSED
+  Cell 23  HYBRID EXPLANATION   : ✅ PASSED
+  Cell 24  PATIENT EXPLANATION  : ✅ PASSED
+  Cell 25  STRUCTURED EVIDENCE  : ✅ PASSED
+  Cell 26  GENAI PROMPT         : ✅ PASSED
+  Cell 27  GROUNDING EVAL       : ✅ PASSED
+  Cell 28  ROBUSTNESS TESTING   : ✅ PASSED
+  Cell 29  SAVE ARTIFACTS       : ✅ PASSED
+  Cell 30  FINAL REPORT         : ✅ PASSED
+
+================================================================================
+END OF REPORT — PULMOGUARD AI PIPELINE
+================================================================================

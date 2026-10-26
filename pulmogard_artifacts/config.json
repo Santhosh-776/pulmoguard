@@ -1,0 +1,23 @@
+{
+  "model": "PulmoGuard Hybrid (LR + LightGBM)",
+  "dataset": "pulmogard_synthetic_lung_cancer_risk_50100.csv",
+  "dataset_note": "Synthetic dataset. Not real patient data. No clinical validation.",
+  "n_samples_clean": 50000,
+  "n_features_raw": 19,
+  "n_features_processed": 37,
+  "hybrid_weight_lr": 0.65,
+  "hybrid_weight_lgb": 0.35,
+  "threshold": 0.68,
+  "random_state": 42,
+  "split_ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "preprocessing": {
+    "numerical": "median+StandardScaler",
+    "categorical": "MostFrequent+OHE"
+  },
+  "target": "lung_cancer",
+  "positive_class": 1
+}
